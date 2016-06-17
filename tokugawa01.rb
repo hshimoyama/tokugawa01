@@ -20,6 +20,7 @@ password_input.native.send_key(ENV['IEYASU_PASSWORD'])
 session.click_on("ログイン")
 
 # IEYASU で修正が必要な日付を列挙
+# 別の月の修正をしたい場合は、ここの URL を変更する(例: "https://ieyasu.co/works/2016-05")
 session.visit "https://ieyasu.co/works"
 
 edit_urls = session.all("table.tableCalendar tr").inject([]) do |r,tr|
