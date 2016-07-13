@@ -30,14 +30,16 @@ edit_urls = session.all("table.tableCalendar tr").inject([]) do |r,tr|
 
   s = tr.find("td.cellDate").text.split(' ')
   url = tr.find("td.cellDate a")['href']
-  date = "#{url.split('d=')[1]}-#{s[0]}(#{s[1]})"
+  date = Date.parse("#{url.split('d=')[1]}-#{s[0]}")
 
   r << { url: url, date: date }
 end
 
 # 編集ページで勤務時間を入力
 edit_urls.each do |h|
-  puts "#{h[:date]} の勤務時間を入力(#{h[:url]})"
+  next if Date.today < h[:date]
+
+  puts "#{h[:date].to_s} の勤務時間を入力(#{h[:url]})"
   session.visit(h[:url])
 
   work_start_at_input = session.find("#work_start_at_str")
